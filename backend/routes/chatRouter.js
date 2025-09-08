@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const chatRouter = Router();
 const chatController = require("../controllers/chatController");
-const verifyToken = require("../lib/jwtUtils");
+const verifyToken = require("../utils/jwtUtils");
 
 module.exports = chatRouter;
