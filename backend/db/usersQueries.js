@@ -72,8 +72,8 @@ async function updateUserInfo(userid, updateUserInfo) {
 async function getAllUsers() {
   try {
     return await prisma.user.findMany({
-      include: {
-        username,
+      select: {
+        username: true,
       },
     });
   } catch (err) {
