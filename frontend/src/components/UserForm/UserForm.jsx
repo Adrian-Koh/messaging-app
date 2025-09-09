@@ -23,7 +23,7 @@ const UserForm = ({ action }) => {
       } else if (action === "login") {
         await submitLogin(username, password);
         updateLoggedInUser(username);
-        //   navigate("/");
+        navigate("/");
       }
     } catch (err) {
       setError(err.message);

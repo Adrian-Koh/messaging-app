@@ -58,7 +58,7 @@ export default function App() {
         </div>
       ) : null}
       <div className={styles.container}>
-        <Outlet context={{ updateLoggedInUser, setError }}></Outlet>
+        <Outlet context={{ updateLoggedInUser, username, setError }}></Outlet>
       </div>
     </div>
   );
