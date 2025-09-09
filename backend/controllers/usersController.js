@@ -19,7 +19,7 @@ function loginPost(req, res, next) {
           { expiresIn: "7d" },
           (err, token) => {
             if (err) {
-              next(err);
+              return next(err);
             }
             res.json({ token });
           }
@@ -29,7 +29,7 @@ function loginPost(req, res, next) {
       }
     })
     .catch((err) => {
-      next(err);
+      return next(err);
     });
 }
 
