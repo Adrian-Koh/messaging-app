@@ -1,5 +1,6 @@
 .app {
-  width: 95vw;
+  width: 99vw;
+  height: 95vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,4 +52,9 @@
 .navLinks a:hover,
 .logOutIcon:hover {
   box-shadow: 2px 2px 3px 3px grey;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
 }

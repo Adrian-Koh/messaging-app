@@ -1,3 +1,4 @@
+import styles from "./UsersPanel.module.css";
 export const UsersPanel = () => {
-  return <div>Users Panel</div>;
+  return <div className={styles.usersList}>Users Panel</div>;
 };
