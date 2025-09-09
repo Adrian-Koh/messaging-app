@@ -7,6 +7,17 @@ const {
 } = require("../utils/passwordUtils");
 require("dotenv").config();
 
+function usersGet(req, res, next) {
+  usersQueries
+    .getAllUsers()
+    .then((users) => {
+      res.json({ users });
+    })
+    .catch((err) => {
+      return next(err);
+    });
+}
+
 function loginPost(req, res, next) {
   const { username, password } = req.body;
   usersQueries
@@ -65,4 +76,4 @@ async function signupPost(req, res, next) {
   }
 }
 
-module.exports = { loginPost, signupPost };
+module.exports = { usersGet, loginPost, signupPost };

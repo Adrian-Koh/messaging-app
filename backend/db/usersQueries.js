@@ -69,4 +69,22 @@ async function updateUserInfo(userid, updateUserInfo) {
   }
 }
 
-module.exports = { addUser, getUserById, getUserByUsername, updateUserInfo };
+async function getAllUsers() {
+  try {
+    return await prisma.user.findMany({
+      include: {
+        username,
+      },
+    });
+  } catch (err) {
+    throw err;
+  }
+}
+
+module.exports = {
+  addUser,
+  getUserById,
+  getUserByUsername,
+  updateUserInfo,
+  getAllUsers,
+};
