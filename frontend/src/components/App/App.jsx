@@ -26,6 +26,7 @@ export default function App() {
     <div className={styles.app}>
       <div className={styles.navBar}>
         <nav className={styles.navLinks}>
+          <Link to="/">Home</Link>
           <Link to="login">Log In</Link>
           <Link to="signup">Sign Up</Link>
         </nav>

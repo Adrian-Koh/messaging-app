@@ -40,8 +40,8 @@ const UserForm = ({ action }) => {
 
   return (
     <>
-      <h1>{title}</h1>
-      <form onSubmit={onSubmit}>
+      <h1 className={styles.title}>{title}</h1>
+      <form onSubmit={onSubmit} className={styles.form}>
         <label htmlFor="username">Username: </label>
         <input
           className={styles.inputField}
@@ -72,10 +72,11 @@ const UserForm = ({ action }) => {
               id="bio"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
+              rows="10"
             />
           </>
         ) : null}
-        <input type="submit" />
+        <input type="submit" className={styles.submit} />
       </form>
     </>
   );
