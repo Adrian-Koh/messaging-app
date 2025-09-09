@@ -19,3 +19,20 @@ export const submitSignup = async (username, password, file, bio) => {
     throw new Error(parsed.message);
   }
 };
+
+export const submitLogin = async (username, password) => {
+  const response = await fetch(BACKEND_DOMAIN + `/users/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  const parsed = await response.json();
+  console.log("parsed response from login: " + JSON.stringify(parsed));
+
+  if (!response.ok) {
+    throw new Error(parsed.message);
+  }
+
+  localStorage.setItem("token", parsed.token);
+};

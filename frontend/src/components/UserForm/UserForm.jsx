@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import styles from "./UserForm.module.css";
-import { submitSignup } from "./user-form";
+import { submitSignup, submitLogin } from "./user-form";
 
 const UserForm = ({ action }) => {
   const [username, setUsername] = useState("");
@@ -11,7 +11,7 @@ const UserForm = ({ action }) => {
   const [title, setTitle] = useState("");
 
   const navigate = useNavigate();
-  //const { updateLoggedInUser, setError } = useOutletContext();
+  const { updateLoggedInUser, setError } = useOutletContext();
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -20,15 +20,13 @@ const UserForm = ({ action }) => {
       if (action === "signup") {
         await submitSignup(username, password, file, bio);
         navigate("/login");
+      } else if (action === "login") {
+        await submitLogin(username, password);
+        updateLoggedInUser(username);
+        //   navigate("/");
       }
-      // if (action === "login") {
-      //   updateLoggedInUser(username);
-      //   const token = parsed.token;
-      //   localStorage.setItem("token", token);
-      //   navigate("/");
-      // } else
     } catch (err) {
-      console.log(err.message);
+      setError(err.message);
     }
   }
 
@@ -60,19 +58,23 @@ const UserForm = ({ action }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <label htmlFor="file">Upload profile picture: </label>
-        <input
-          type="file"
-          id="file"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-        <label htmlFor="bio">Brief introduction: </label>
-        <textarea
-          className={styles.inputField}
-          id="bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
+        {action === "signup" ? (
+          <>
+            <label htmlFor="file">Upload profile picture: </label>
+            <input
+              type="file"
+              id="file"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <label htmlFor="bio">Brief introduction: </label>
+            <textarea
+              className={styles.inputField}
+              id="bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </>
+        ) : null}
         <input type="submit" />
       </form>
     </>
