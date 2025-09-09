@@ -56,7 +56,6 @@ async function signupPost(req, res, next) {
           message: "signup success",
           user,
         });
-        res.redirect("/login");
       })
       .catch((err) => {
         return next(err);
