@@ -1,39 +1,34 @@
 import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import styles from "./UserForm.module.css";
-const BACKEND_DOMAIN = "http://localhost:8000";
+import { submitSignup } from "./user-form";
 
 const UserForm = ({ action }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [file, setFile] = useState(null);
+  const [bio, setBio] = useState("");
   const [title, setTitle] = useState("");
 
   const navigate = useNavigate();
-  const { updateLoggedInUser, setError } = useOutletContext();
+  //const { updateLoggedInUser, setError } = useOutletContext();
 
   async function onSubmit(e) {
     e.preventDefault();
 
-    const response = await fetch(BACKEND_DOMAIN + `/users/${action}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const parsed = await response.json();
-
-    if (!response.ok) {
-      setError(parsed.message);
-      return;
-    }
-
-    if (action === "login") {
-      updateLoggedInUser(username);
-      const token = parsed.token;
-      localStorage.setItem("token", token);
-      navigate("/");
-    } else if (action === "signup") {
-      navigate("/login");
+    try {
+      if (action === "signup") {
+        await submitSignup(username, password, file, bio);
+        navigate("/login");
+      }
+      // if (action === "login") {
+      //   updateLoggedInUser(username);
+      //   const token = parsed.token;
+      //   localStorage.setItem("token", token);
+      //   navigate("/");
+      // } else
+    } catch (err) {
+      console.log(err.message);
     }
   }
 
@@ -64,6 +59,19 @@ const UserForm = ({ action }) => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+        <label htmlFor="file">Upload profile picture: </label>
+        <input
+          type="file"
+          id="file"
+          onChange={(e) => setFile(e.target.files[0])}
+        />
+        <label htmlFor="bio">Brief introduction: </label>
+        <textarea
+          className={styles.inputField}
+          id="bio"
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
         />
         <input type="submit" />
       </form>
