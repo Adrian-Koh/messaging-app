@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const usersQueries = require("../db/usersQueries");
+const { uploadFile } = require("../utils/supabase");
 const {
   generatePasswordHash,
   validPassword,
@@ -33,20 +34,36 @@ function loginPost(req, res, next) {
 }
 
 async function signupPost(req, res, next) {
-  const { username, password } = req.body;
-  const passwordHash = generatePasswordHash(password);
-  usersQueries
-    .addUser(username, passwordHash)
-    .then((user) => {
-      res.json({
-        message: "signup success",
-        user,
+  try {
+    const { username, password, bio } = req.body;
+
+    // reject if username already exists to prevent uploading redundant profile pic
+    const existingUser = await usersQueries.getUserByUsername(username);
+    if (existingUser)
+      throw new Error(`The username ${username} has already been taken.`);
+
+    const passwordHash = generatePasswordHash(password);
+
+    let photoUrl = null;
+    if (req.file) {
+      photoUrl = await uploadFile(username, req.file);
+    }
+
+    usersQueries
+      .addUser(username, passwordHash, photoUrl, bio)
+      .then((user) => {
+        res.json({
+          message: "signup success",
+          user,
+        });
+        res.redirect("/login");
+      })
+      .catch((err) => {
+        return next(err);
       });
-      res.redirect("/login");
-    })
-    .catch((err) => {
-      next(err);
-    });
+  } catch (err) {
+    return next(err);
+  }
 }
 
 module.exports = { loginPost, signupPost };

@@ -1,18 +1,17 @@
+require("dotenv").config();
 const { createClient } = require("@supabase/supabase-js");
-
-const supabaseUrl = "https://xngztpgfiwfxejioajkg.supabase.co";
+const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const BUCKET_NAME = "Messaging App";
 
-async function uploadFile(fileName, fileContent) {
-  let filePath = fileName;
+async function uploadFile(username, file) {
+  const filePath = `profile-pics/${username}_${file.originalname}`;
   const { data, error } = await supabase.storage
     .from(BUCKET_NAME)
-    .upload(filePath, fileContent, {
-      cacheControl: "3600",
-      upsert: false,
+    .upload(filePath, file.buffer, {
+      contentType: file.mimetype,
     });
 
   if (error) {
@@ -23,20 +22,6 @@ async function uploadFile(fileName, fileContent) {
   }
 }
 
-async function downloadFile(fileName) {
-  let filePath = fileName;
-
-  const { data, error } = await supabase.storage
-    .from(BUCKET_NAME)
-    .download(filePath);
-
-  if (error) {
-    throw error;
-  } else {
-    return data;
-  }
-}
-
 function getFileUrl(filePath) {
   const { data } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filePath);
   return data.publicUrl;
@@ -44,6 +29,4 @@ function getFileUrl(filePath) {
 
 module.exports = {
   uploadFile,
-  downloadFile,
-  getFileUrl,
 };
