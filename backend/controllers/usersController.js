@@ -5,43 +5,42 @@ const {
   generatePasswordHash,
   validPassword,
 } = require("../utils/passwordUtils");
+const redis = require("../utils/redis");
 require("dotenv").config();
 
-function usersGet(req, res, next) {
-  usersQueries
-    .getAllUsers()
-    .then((users) => {
-      res.json({ users });
-    })
-    .catch((err) => {
-      return next(err);
-    });
+async function usersGet(req, res, next) {
+  try {
+    const users = await usersQueries.getAllUsers();
+    res.json({ users });
+  } catch (err) {
+    return next(err);
+  }
 }
 
-function loginPost(req, res, next) {
+async function loginPost(req, res, next) {
   const { username, password } = req.body;
-  usersQueries
-    .getUserByUsername(username)
-    .then((user) => {
-      if (validPassword(password, user.passwordHash)) {
-        jwt.sign(
-          { user },
-          process.env.SECRET_KEY,
-          { expiresIn: "7d" },
-          (err, token) => {
-            if (err) {
-              return next(err);
-            }
-            res.json({ token });
+  try {
+    const user = await usersQueries.getUserByUsername(username);
+
+    if (validPassword(password, user.passwordHash)) {
+      await redis.addOnlineUser(user.id); // add online user to redis cache
+      jwt.sign(
+        { user },
+        process.env.SECRET_KEY,
+        { expiresIn: "7d" },
+        (err, token) => {
+          if (err) {
+            return next(err);
           }
-        );
-      } else {
-        res.sendStatus(500);
-      }
-    })
-    .catch((err) => {
-      return next(err);
-    });
+          res.json({ token });
+        }
+      );
+    } else {
+      res.sendStatus(500);
+    }
+  } catch (err) {
+    return next(err);
+  }
 }
 
 async function signupPost(req, res, next) {
@@ -60,17 +59,16 @@ async function signupPost(req, res, next) {
       photoUrl = await uploadFile(username, req.file);
     }
 
-    usersQueries
-      .addUser(username, passwordHash, photoUrl, bio)
-      .then((user) => {
-        res.json({
-          message: "signup success",
-          user,
-        });
-      })
-      .catch((err) => {
-        return next(err);
-      });
+    const user = await usersQueries.addUser(
+      username,
+      passwordHash,
+      photoUrl,
+      bio
+    );
+    res.json({
+      message: "signup success",
+      user,
+    });
   } catch (err) {
     return next(err);
   }
