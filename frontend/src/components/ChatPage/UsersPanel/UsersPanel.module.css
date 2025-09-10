@@ -1,4 +1,25 @@
-.usersList {
+.usersPanel {
   border: solid 2px black;
   border-radius: 5px;
+}
+
+.usersList {
+  list-style-type: none;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.panelTitle {
+  text-align: center;
+}
+
+.user {
+  border: solid 2px black;
+  border-radius: 3px;
+  box-shadow: 2px 2px 3px 3px grey;
+  padding: 3px;
+  width: 80%;
 }

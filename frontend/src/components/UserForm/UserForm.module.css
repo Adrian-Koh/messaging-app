@@ -3,6 +3,7 @@
   grid-template-columns: minmax(100px, 200px) minmax(100px, 200px);
   gap: 20px;
   font-size: 1.1rem;
+  justify-content: center;
 }
 
 .title {

@@ -2,19 +2,33 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from "./App.module.css";
-import { getUsernameFromToken, removeToken } from "../../utils/token";
+import {
+  getProfilePicFromToken,
+  getUsernameFromToken,
+  removeToken,
+} from "../../utils/token";
 
 export default function App() {
   const [username, setUsername] = useState("");
+  const [profilePicUrl, setProfilePicUrl] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     const loggedInUsername = getUsernameFromToken();
-    if (loggedInUsername) setUsername(loggedInUsername);
+
+    if (loggedInUsername) {
+      setUsername(loggedInUsername);
+      updateProfilePicUrl();
+    }
   }, []);
 
   const updateLoggedInUser = (uname) => {
     setUsername(uname);
+    updateProfilePicUrl();
+  };
+
+  const updateProfilePicUrl = () => {
+    setProfilePicUrl(getProfilePicFromToken());
   };
 
   function handleLogOutClick() {
@@ -34,7 +48,7 @@ export default function App() {
           {username ? (
             <img
               className={styles.loggedInUserIcon}
-              src="/account-circle.svg"
+              src={profilePicUrl ? profilePicUrl : "/account-circle.svg"}
               alt="Logged in account"
             />
           ) : null}

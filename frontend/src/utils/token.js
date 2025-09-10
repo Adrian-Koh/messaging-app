@@ -23,8 +23,28 @@ const getUsernameFromToken = () => {
   }
 };
 
+const getProfilePicFromToken = () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+
+    const decoded = jwtDecode(token);
+
+    if (!decoded.user.photoUrl) return "";
+
+    return decoded.user.photoUrl;
+  } catch {
+    return "";
+  }
+};
+
 const removeToken = () => {
   localStorage.removeItem("token");
 };
 
-export { getTokenHeader, getUsernameFromToken, removeToken };
+export {
+  getTokenHeader,
+  getUsernameFromToken,
+  getProfilePicFromToken,
+  removeToken,
+};
