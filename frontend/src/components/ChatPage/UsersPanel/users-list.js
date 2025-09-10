@@ -30,5 +30,5 @@ export const getAllOnlineUsers = async () => {
     throw new Error(parsed.message);
   }
 
-  return parsed.onlineUsers.map((userId) => Number(userId));
+  return parsed.onlineUsers;
 };
