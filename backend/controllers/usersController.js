@@ -23,7 +23,7 @@ async function loginPost(req, res, next) {
     const user = await usersQueries.getUserByUsername(username);
 
     if (validPassword(password, user.passwordHash)) {
-      await redis.addOnlineUser(user.id); // add online user to redis cache
+      await redis.addOnlineUser(user.username); // add online user to redis cache
       jwt.sign(
         { user },
         process.env.SECRET_KEY,

@@ -15,8 +15,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/", chatRouter);
 app.use("/users", usersRouter);
-app.use("/chat", chatRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({ status: "error", message: "Error: " + err.message });

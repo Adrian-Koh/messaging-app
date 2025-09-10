@@ -73,7 +73,6 @@ async function getAllUsers() {
   try {
     return await prisma.user.findMany({
       select: {
-        id: true,
         username: true,
       },
     });
