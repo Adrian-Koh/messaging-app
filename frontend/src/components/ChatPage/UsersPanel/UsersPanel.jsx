@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./UsersPanel.module.css";
-import { getAllUsers } from "./users-list";
+import { getAllOnlineUsers, getAllUsers } from "./users-list";
 import { useOutletContext } from "react-router-dom";
 
 export const UsersPanel = ({ setOtherUser }) => {
@@ -8,17 +8,23 @@ export const UsersPanel = ({ setOtherUser }) => {
   const { username } = useOutletContext();
 
   useEffect(() => {
-    const getAllUsersCb = async () => {
-      const allUsers = await getAllUsers();
-      const otherUsers = allUsers.filter((user) => user.username !== username);
-      setUsers(otherUsers);
+    const getUsersCb = async () => {
+      const otherUsers = (await getAllUsers()).filter(
+        (user) => user.username !== username
+      );
+      const onlineUsers = await getAllOnlineUsers();
+
+      const usersWithOnlineInfo = otherUsers.map((user) => {
+        return { ...user, online: onlineUsers.includes(user.id) };
+      });
+      setUsers(usersWithOnlineInfo);
     };
-    getAllUsersCb();
+    getUsersCb();
   }, [username]);
 
   return (
     <div className={styles.usersPanel}>
-      {users ? (
+      {users && users.length > 0 ? (
         <>
           <h2 className={styles.panelTitle}>Users</h2>
           <ul className={styles.usersList}>
@@ -27,7 +33,7 @@ export const UsersPanel = ({ setOtherUser }) => {
                 className={styles.user}
                 onClick={() => setOtherUser(user.username)}
               >
-                {user.username}
+                {user.username}, online: {user.online ? "yes" : "no"}
               </li>
             ))}
           </ul>

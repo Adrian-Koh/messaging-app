@@ -15,3 +15,20 @@ export const getAllUsers = async () => {
 
   return parsed.users;
 };
+
+export const getAllOnlineUsers = async () => {
+  const response = await fetch(BACKEND_DOMAIN + "/users/online", {
+    headers: getTokenHeader(),
+  });
+
+  const parsed = await response.json();
+  console.log(
+    "parsed response from get all online users: " + JSON.stringify(parsed)
+  );
+
+  if (!response.ok) {
+    throw new Error(parsed.message);
+  }
+
+  return parsed.onlineUsers.map((userId) => Number(userId));
+};
