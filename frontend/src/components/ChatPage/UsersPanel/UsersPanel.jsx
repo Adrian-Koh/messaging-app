@@ -33,7 +33,15 @@ export const UsersPanel = ({ setOtherUser }) => {
                 className={styles.user}
                 onClick={() => setOtherUser(user.username)}
               >
-                {user.username}, online: {user.online ? "yes" : "no"}
+                <div
+                  className={styles.onlineStatus}
+                  style={
+                    user.online
+                      ? { backgroundColor: "rgb(120, 180, 30)" }
+                      : { backgroundColor: "grey" }
+                  }
+                ></div>
+                {user.username}
               </li>
             ))}
           </ul>
