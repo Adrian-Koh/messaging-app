@@ -36,7 +36,13 @@ export const ChatPanel = ({ otherUser = null }) => {
             {chats && chats.length > 0 ? (
               <ul className={styles.chats}>
                 {chats.map((chat) => (
-                  <li>
+                  <li
+                    className={
+                      chat.sender.username === otherUser.username
+                        ? styles.otherUserChat
+                        : styles.loggedInUserChat
+                    }
+                  >
                     {chat.sender.username} says: {chat.text}
                   </li>
                 ))}
@@ -48,11 +54,16 @@ export const ChatPanel = ({ otherUser = null }) => {
             <div className={styles.chatInput}>
               <input
                 type="text"
-                id="message"
+                className={styles.inputField}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
-              <input type="button" value="Send" onClick={handleSendClick} />
+              <input
+                type="button"
+                value="Send"
+                className={styles.sendBtn}
+                onClick={handleSendClick}
+              />
             </div>
           </>
         ) : (
