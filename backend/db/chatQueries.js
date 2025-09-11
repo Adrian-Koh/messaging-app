@@ -19,6 +19,13 @@ const getChatsBetweenUsers = async (userOneId, userTwoId) => {
           },
         ],
       },
+      include: {
+        sender: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
     return chats;
   } catch (err) {
