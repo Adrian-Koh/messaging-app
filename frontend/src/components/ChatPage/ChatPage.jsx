@@ -4,7 +4,7 @@ import styles from "./ChatPage.module.css";
 import { useState } from "react";
 
 export const ChatPage = () => {
-  const [otherUser, setOtherUser] = useState("");
+  const [otherUser, setOtherUser] = useState(null);
   return (
     <div className={styles.container}>
       <ChatPanel otherUser={otherUser} />

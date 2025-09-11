@@ -29,10 +29,7 @@ export const UsersPanel = ({ setOtherUser }) => {
           <h2 className={styles.panelTitle}>Users</h2>
           <ul className={styles.usersList}>
             {users.map((user) => (
-              <li
-                className={styles.user}
-                onClick={() => setOtherUser(user.username)}
-              >
+              <li className={styles.user} onClick={() => setOtherUser(user)}>
                 <div
                   className={styles.onlineStatus}
                   style={
