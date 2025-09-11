@@ -15,7 +15,10 @@ export const UsersPanel = ({ setOtherUser }) => {
       const onlineUsers = await getAllOnlineUsers();
 
       const usersWithOnlineInfo = otherUsers.map((user) => {
-        return { ...user, online: onlineUsers.includes(user.username) };
+        return {
+          ...user,
+          online: onlineUsers.includes(user.username),
+        };
       });
       setUsers(usersWithOnlineInfo);
     };

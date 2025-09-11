@@ -1,4 +1,4 @@
-const BACKEND_DOMAIN = "http://localhost:8000";
+const BACKEND_DOMAIN = "http://localhost:8000/chat";
 import { getTokenHeader } from "../../../utils/token";
 
 export const getUserChats = async (otherUserId) => {
@@ -14,4 +14,21 @@ export const getUserChats = async (otherUserId) => {
   }
 
   return parsed.chats;
+};
+
+export const submitChat = async (otherUserId, message) => {
+  const tokenHeader = getTokenHeader();
+
+  const response = await fetch(BACKEND_DOMAIN + `/${otherUserId}`, {
+    method: "POST",
+    headers: { ...tokenHeader, "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+  });
+
+  const parsed = await response.json();
+  console.log("parsed response from post chat: " + JSON.stringify(parsed));
+
+  if (!response.ok) {
+    throw new Error(parsed.message);
+  }
 };

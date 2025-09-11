@@ -1,21 +1,29 @@
 import { useState, useEffect } from "react";
 import styles from "./ChatPanel.module.css";
-import { getUserChats } from "./user-chats";
+import { getUserChats, submitChat } from "./user-chats";
 
 export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const getUserChatsCb = async () => {
+    if (otherUser) {
+      const chats = await getUserChats(otherUser.id);
+      setChats(chats);
+    } else {
+      setChats([]);
+    }
+  };
 
   useEffect(() => {
-    const getUserChatsCb = async () => {
-      if (otherUser) {
-        const chats = await getUserChats(otherUser.id);
-        setChats(chats);
-      } else {
-        setChats([]);
-      }
-    };
     getUserChatsCb();
   }, [otherUser]);
+
+  async function handleSendClick() {
+    await submitChat(otherUser.id, message);
+    setMessage("");
+    await getUserChatsCb();
+  }
 
   return (
     <div className={styles.chatPanel}>
@@ -36,6 +44,16 @@ export const ChatPanel = ({ otherUser = null }) => {
             ) : (
               <p>No chats currently.</p>
             )}
+
+            <div className={styles.chatInput}>
+              <input
+                type="text"
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <input type="button" value="Send" onClick={handleSendClick} />
+            </div>
           </>
         ) : (
           <p>Select a user to chat with!</p>
