@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const usersRouter = require("./routes/usersRouter");
 const chatRouter = require("./routes/chatRouter");
+const indexRouter = require("./routes/indexRouter");
 
 const corsOptions = {
   origin: "http://localhost:5173",
@@ -15,7 +16,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", chatRouter);
+app.use("/", indexRouter);
+app.use("/chat", chatRouter);
 app.use("/users", usersRouter);
 
 app.use((err, req, res, next) => {

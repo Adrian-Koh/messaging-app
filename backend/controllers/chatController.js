@@ -1,23 +1,6 @@
 const { addOnlineUser } = require("../utils/redis");
 const jwt = require("jsonwebtoken");
 const chatQueries = require("../db/chatQueries");
-const usersQueries = require("../db/usersQueries");
-
-const chatGet = (req, res, next) => {
-  jwt.verify(req.token, process.env.SECRET_KEY, async (err, authData) => {
-    if (err) {
-      // it's ok to not be logged in
-      res.json({ message: "not logged in" });
-    } else {
-      const username = authData.user.username;
-
-      if (username) {
-        await addOnlineUser(authData.user.username);
-      }
-      res.json({ message: "successfully logged in" });
-    }
-  });
-};
 
 const chatWithUserGet = (req, res, next) => {
   jwt.verify(req.token, process.env.SECRET_KEY, async (err, authData) => {
@@ -66,4 +49,4 @@ const chatPost = (req, res, next) => {
   });
 };
 
-module.exports = { chatGet, chatWithUserGet, chatPost };
+module.exports = { chatWithUserGet, chatPost };
