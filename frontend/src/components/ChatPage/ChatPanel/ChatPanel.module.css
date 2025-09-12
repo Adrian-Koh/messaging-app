@@ -1,5 +1,10 @@
+html {
+  --user: rgb(66, 66, 219);
+  --other-user: grey;
+}
+
 .chatPanel {
-  border: solid 2px black;
+  border: var(--border);
   border-radius: 5px;
   padding: 15px;
   display: flex;
@@ -13,40 +18,45 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
 }
 
 .chats {
   display: grid;
   grid-template-columns: minmax(500px, 1000px);
+  grid-auto-rows: min-content;
   list-style-type: none;
-  padding: 0;
+  padding: 5px;
+  margin: 5px 0;
   gap: 5px;
+  height: calc((0.9 * 95vh) - 65px - 35px - 35px - (5px * 4) - 18px);
+  overflow-y: auto;
 }
 
 .chats li {
   color: white;
   border-radius: 5px;
   padding: 5px;
-  box-shadow: 2px 2px 3px 3px rgb(156, 156, 156);
+  box-shadow: 1px 1px 3px 2px white;
 }
 
 .loggedInUserChat {
   justify-self: flex-end;
-  background-color: rgb(66, 66, 219);
+  background-color: var(--user);
 }
 
 .otherUserChat {
-  background-color: grey;
+  background-color: var(--other-user);
   justify-self: flex-start;
 }
 
 .chatInput {
   width: 100%;
   display: flex;
-  gap: 5px;
+  gap: 15px;
   justify-content: center;
+  height: 35px;
 }
+
 .chatInput input {
   border-radius: 5px;
   font-size: 1.1rem;
@@ -54,13 +64,20 @@
 }
 
 .inputField {
-  background-color: rgb(124, 124, 201);
+  background-color: var(--user);
   border: none;
   color: white;
   width: 70%;
+  box-shadow: 2px 2px 3px 3px white;
 }
 
 .sendBtn {
-  border: solid 2px rgb(124, 124, 201);
-  background-color: white;
+  border: solid 2px var(--user);
+  background-color: var(--user);
+  color: white;
+  box-shadow: 1px 1px 3px 1px white;
+}
+
+.otherUser {
+  margin: 4px 0;
 }

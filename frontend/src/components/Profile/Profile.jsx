@@ -19,11 +19,13 @@ const Profile = () => {
             </>
           ) : null}
           <div className={styles.username}>{user.username}</div>
+          <div className={styles.joinDate}>
+            Joined on: {new Date(user.joinDate).toDateString()}
+          </div>
           <div className={styles.bio}>
             Bio: "<i>{user.bio}</i>"
           </div>
           <img src="/pencil.svg" alt="edit" className={styles.editIcon} />
-          <div>Joined on: {new Date(user.joinDate).toDateString()}</div>
         </div>
       ) : (
         <h1 className={styles.loggedOutMessage}>You are not logged in.</h1>

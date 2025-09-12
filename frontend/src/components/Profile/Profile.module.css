@@ -6,14 +6,22 @@
   display: grid;
   grid-template-columns: fit-content 25px;
   justify-content: center;
+  justify-items: center;
   align-items: center;
   gap: 5px;
+}
+
+.profilePic,
+.username,
+.bio,
+.joinDate {
+  padding: 10px;
 }
 
 .profilePic {
   height: 100px;
   width: auto;
-  border-radius: 10px;
+  border-radius: 20px;
   grid-column: 1 / 2;
 }
 
@@ -24,6 +32,7 @@
   border: solid 2px black;
   border-radius: 5px;
   padding: 3px;
+  filter: var(--svg-filter);
 }
 
 .editIcon:hover {
@@ -32,12 +41,21 @@
 
 .username {
   grid-column: 1 / 3;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 600;
 }
 
 .bio {
   grid-column: 1 / 2;
+  font-size: 1.2rem;
 }
 
 .loggedOutMessage {
+  text-align: center;
+}
+
+.joinDate {
+  grid-column: 1 / 3;
   text-align: center;
 }

@@ -15,3 +15,9 @@
   width: min-content;
   justify-self: flex-end;
 }
+
+.inputField {
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+}

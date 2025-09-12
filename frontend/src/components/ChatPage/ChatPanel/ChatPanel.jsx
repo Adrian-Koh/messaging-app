@@ -39,7 +39,7 @@ export const ChatPanel = ({ otherUser = null }) => {
 
   return (
     <div className={styles.chatPanel}>
-      <h2>
+      <h2 className={styles.otherUser}>
         {otherUser
           ? otherUser.username
           : `Welcome, ${user.username}! Select a user to chat with.`}
