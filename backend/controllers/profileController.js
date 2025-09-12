@@ -1,5 +1,6 @@
 const usersQueries = require("../db/usersQueries");
 const jwt = require("jsonwebtoken");
+const { uploadFile } = require("../utils/supabase");
 
 async function profilePicPut(req, res, next) {
   jwt.verify(req.token, process.env.SECRET_KEY, async (err, authData) => {
@@ -12,6 +13,7 @@ async function profilePicPut(req, res, next) {
         }
 
         const user = await usersQueries.updateUserInfo(authData.user.id, {
+          bio: authData.user.bio,
           photoUrl,
         });
 

@@ -47,20 +47,24 @@ async function updateUserInfo(userid, updateUserInfo) {
     if (!updateUserInfo) {
       throw new Error("User info is null");
     }
-    const username = updateUserInfo.username ? updateUserInfo.username : null;
-    const passwordHash = updateUserInfo.passwordHash
-      ? updateUserInfo.passwordHash
-      : null;
+    // const passwordHash = updateUserInfo.passwordHash
+    //   ? updateUserInfo.passwordHash
+    //   : null;
     const photoUrl = updateUserInfo.photoUrl ? updateUserInfo.photoUrl : null;
     const bio = updateUserInfo.bio ? updateUserInfo.bio : null;
 
     const user = await prisma.user.update({
       where: { id: Number(userid) },
       data: {
-        username,
-        passwordHash,
+        // passwordHash,
         photoUrl,
         bio,
+      },
+      select: {
+        id: true,
+        username: true,
+        photoUrl: true,
+        bio: true,
       },
     });
     return user;
