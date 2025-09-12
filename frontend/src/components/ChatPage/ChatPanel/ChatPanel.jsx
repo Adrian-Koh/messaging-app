@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import styles from "./ChatPanel.module.css";
 import { getUserChats, submitChat } from "./user-chats";
+import { useOutletContext } from "react-router-dom";
 
 export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const [msgTime, setMsgTime] = useState("");
+  const { username } = useOutletContext();
 
   const getUserChatsCb = async () => {
     if (otherUser) {
@@ -40,7 +42,7 @@ export const ChatPanel = ({ otherUser = null }) => {
       <h2>
         {otherUser
           ? otherUser.username
-          : "Welcome! Select a user to chat with."}
+          : `Welcome, ${username}! Select a user to chat with.`}
       </h2>
       <div className={styles.chatContainer}>
         {otherUser ? (
