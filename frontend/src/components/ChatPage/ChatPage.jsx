@@ -6,10 +6,10 @@ import { useOutletContext } from "react-router-dom";
 
 export const ChatPage = () => {
   const [otherUser, setOtherUser] = useState(null);
-  const { username } = useOutletContext();
+  const { user } = useOutletContext();
   return (
     <div className={styles.container}>
-      {username ? (
+      {user ? (
         <>
           <ChatPanel otherUser={otherUser} />
           <UsersPanel setOtherUser={setOtherUser} />

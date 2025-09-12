@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import styles from "./UserForm.module.css";
 import { submitSignup, submitLogin } from "./user-form";
+import { getUserFromToken } from "../../utils/token";
 
 const UserForm = ({ action }) => {
   const [username, setUsername] = useState("");
@@ -22,7 +23,8 @@ const UserForm = ({ action }) => {
         navigate("/login");
       } else if (action === "login") {
         await submitLogin(username, password);
-        updateLoggedInUser(username);
+        const user = getUserFromToken();
+        updateLoggedInUser(user);
         navigate("/");
       }
     } catch (err) {

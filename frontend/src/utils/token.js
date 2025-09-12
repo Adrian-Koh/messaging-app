@@ -10,31 +10,16 @@ const getTokenHeader = () => {
   return { authorization: `Bearer ${token}` };
 };
 
-const getUsernameFromToken = () => {
+const getUserFromToken = () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
     const decoded = jwtDecode(token);
 
-    return decoded.user.username;
+    return decoded.user;
   } catch {
     return null;
-  }
-};
-
-const getProfilePicFromToken = () => {
-  try {
-    const token = localStorage.getItem("token");
-    if (!token) return null;
-
-    const decoded = jwtDecode(token);
-
-    if (!decoded.user.photoUrl) return "";
-
-    return decoded.user.photoUrl;
-  } catch {
-    return "";
   }
 };
 
@@ -42,9 +27,4 @@ const removeToken = () => {
   localStorage.removeItem("token");
 };
 
-export {
-  getTokenHeader,
-  getUsernameFromToken,
-  getProfilePicFromToken,
-  removeToken,
-};
+export { getTokenHeader, getUserFromToken, removeToken };

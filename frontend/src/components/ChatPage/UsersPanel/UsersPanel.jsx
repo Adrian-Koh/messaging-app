@@ -5,25 +5,25 @@ import { useOutletContext } from "react-router-dom";
 
 export const UsersPanel = ({ setOtherUser }) => {
   const [users, setUsers] = useState([]);
-  const { username } = useOutletContext();
+  const { user } = useOutletContext();
 
   useEffect(() => {
     const getUsersCb = async () => {
       const otherUsers = (await getAllUsers()).filter(
-        (user) => user.username !== username
+        (otherUser) => otherUser.username !== user.username
       );
       const onlineUsers = await getAllOnlineUsers();
 
-      const usersWithOnlineInfo = otherUsers.map((user) => {
+      const usersWithOnlineInfo = otherUsers.map((otherUser) => {
         return {
-          ...user,
-          online: onlineUsers.includes(user.username),
+          ...otherUser,
+          online: onlineUsers.includes(otherUser.username),
         };
       });
       setUsers(usersWithOnlineInfo);
     };
     getUsersCb();
-  }, [username]);
+  }, [user]);
 
   return (
     <div className={styles.usersPanel}>
@@ -31,17 +31,20 @@ export const UsersPanel = ({ setOtherUser }) => {
         <>
           <h2 className={styles.panelTitle}>Users</h2>
           <ul className={styles.usersList}>
-            {users.map((user) => (
-              <li className={styles.user} onClick={() => setOtherUser(user)}>
+            {users.map((otherUser) => (
+              <li
+                className={styles.user}
+                onClick={() => setOtherUser(otherUser)}
+              >
                 <div
                   className={styles.onlineStatus}
                   style={
-                    user.online
+                    otherUser.online
                       ? { backgroundColor: "rgb(120, 180, 30)" }
                       : { backgroundColor: "grey" }
                   }
                 ></div>
-                {user.username}
+                {otherUser.username}
               </li>
             ))}
           </ul>

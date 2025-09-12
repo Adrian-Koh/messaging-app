@@ -7,7 +7,7 @@ export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const [msgTime, setMsgTime] = useState("");
-  const { username } = useOutletContext();
+  const { user } = useOutletContext();
 
   const getUserChatsCb = async () => {
     if (otherUser) {
@@ -42,7 +42,7 @@ export const ChatPanel = ({ otherUser = null }) => {
       <h2>
         {otherUser
           ? otherUser.username
-          : `Welcome, ${username}! Select a user to chat with.`}
+          : `Welcome, ${user.username}! Select a user to chat with.`}
       </h2>
       <div className={styles.chatContainer}>
         {otherUser ? (

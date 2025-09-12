@@ -2,41 +2,28 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from "./App.module.css";
-import {
-  getProfilePicFromToken,
-  getUsernameFromToken,
-  removeToken,
-} from "../../utils/token";
+import { getUserFromToken, removeToken } from "../../utils/token";
 
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [profilePicUrl, setProfilePicUrl] = useState("");
+  const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const loggedInUsername = getUsernameFromToken();
+    const loggedInUser = getUserFromToken();
 
-    if (loggedInUsername) {
-      setUsername(loggedInUsername);
-      updateProfilePicUrl();
+    if (loggedInUser) {
+      setUser(loggedInUser);
     }
   }, []);
 
-  const updateLoggedInUser = (uname) => {
-    setUsername(uname);
-    updateProfilePicUrl();
-  };
-
-  const updateProfilePicUrl = () => {
-    setProfilePicUrl(getProfilePicFromToken());
+  const updateLoggedInUser = (u) => {
+    setUser(u);
   };
 
   function handleLogOutClick() {
     removeToken();
-    updateLoggedInUser("");
+    updateLoggedInUser(null);
   }
-
-  function handleProfileClick() {}
 
   return (
     <div className={styles.app}>
@@ -47,20 +34,21 @@ export default function App() {
           <Link to="signup">Sign Up</Link>
         </nav>
         <div className={styles.loggedIn}>
-          {username ? (
+          {user ? (
             <Link to="profile" className={styles.user}>
               <img
                 className={styles.loggedInUserIcon}
-                src={profilePicUrl ? profilePicUrl : "/account-circle.svg"}
+                src={
+                  user && user.photoUrl ? user.photoUrl : "/account-circle.svg"
+                }
                 alt="Logged in account"
               />
-              {username}
+              {user.username}
             </Link>
           ) : (
             "Not logged in"
           )}
-          {/* {username ? username : "Not logged in"} */}
-          {username ? (
+          {user ? (
             <img
               className={styles.logOutIcon}
               src="/logout.svg"
@@ -79,7 +67,7 @@ export default function App() {
         </div>
       ) : null}
       <div className={styles.container}>
-        <Outlet context={{ updateLoggedInUser, username, setError }}></Outlet>
+        <Outlet context={{ updateLoggedInUser, user, setError }}></Outlet>
       </div>
     </div>
   );
