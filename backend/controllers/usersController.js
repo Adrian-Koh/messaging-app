@@ -24,6 +24,7 @@ async function loginPost(req, res, next) {
 
     if (validPassword(password, user.passwordHash)) {
       await redis.addOnlineUser(user.username); // add online user to redis cache
+      delete user.passwordHash; // remove passwordHash from token sent to user
       jwt.sign(
         { user },
         process.env.SECRET_KEY,
