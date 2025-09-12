@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: fit-content 25px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.profilePic {
+  height: 100px;
+  width: auto;
+  border-radius: 10px;
+  grid-column: 1 / 2;
+}
+
+.editIcon {
+  grid-column: 2 / 3;
+  width: 20px;
+  height: auto;
+  border: solid 2px black;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.editIcon:hover {
+  box-shadow: 2px 2px 3px 3px grey;
+}
+
+.username {
+  grid-column: 1 / 3;
+}
+
+.bio {
+  grid-column: 1 / 2;
+}
+
+.loggedOutMessage {
+  text-align: center;
+}
