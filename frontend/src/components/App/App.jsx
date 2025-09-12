@@ -36,6 +36,8 @@ export default function App() {
     updateLoggedInUser("");
   }
 
+  function handleProfileClick() {}
+
   return (
     <div className={styles.app}>
       <div className={styles.navBar}>
@@ -46,13 +48,18 @@ export default function App() {
         </nav>
         <div className={styles.loggedIn}>
           {username ? (
-            <img
-              className={styles.loggedInUserIcon}
-              src={profilePicUrl ? profilePicUrl : "/account-circle.svg"}
-              alt="Logged in account"
-            />
-          ) : null}
-          {username ? username : "Not logged in"}
+            <Link to="profile" className={styles.user}>
+              <img
+                className={styles.loggedInUserIcon}
+                src={profilePicUrl ? profilePicUrl : "/account-circle.svg"}
+                alt="Logged in account"
+              />
+              {username}
+            </Link>
+          ) : (
+            "Not logged in"
+          )}
+          {/* {username ? username : "Not logged in"} */}
           {username ? (
             <img
               className={styles.logOutIcon}

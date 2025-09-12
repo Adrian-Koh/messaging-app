@@ -4,6 +4,7 @@ import App from "./components/App/App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { UserForm } from "./components/UserForm/UserForm.jsx";
 import { ChatPage } from "./components/ChatPage/ChatPage.jsx";
+import { Profile } from "./components/Profile/Profile.jsx";
 import ErrorPage from "./components/ErrorPage/ErrorPage.jsx";
 
 const router = createBrowserRouter([
@@ -11,9 +12,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      { path: "", element: <ChatPage /> },
       { path: "login", element: <UserForm action="login" /> },
       { path: "signup", element: <UserForm action="signup" /> },
-      { path: "", element: <ChatPage /> },
+      { path: "profile", element: <Profile /> },
     ],
     errorElement: <ErrorPage />,
   },
