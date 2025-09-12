@@ -5,6 +5,7 @@ import { getUserChats, submitChat } from "./user-chats";
 export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
+  const [msgTime, setMsgTime] = useState("");
 
   const getUserChatsCb = async () => {
     if (otherUser) {
@@ -25,14 +26,25 @@ export const ChatPanel = ({ otherUser = null }) => {
     await getUserChatsCb();
   }
 
+  function handleMessageHover(time) {
+    const date = new Date(time);
+    const dateTimeString = `${date.toDateString()}, ${date.toLocaleTimeString(
+      [],
+      { hour12: true }
+    )}`;
+    setMsgTime(dateTimeString);
+  }
+
   return (
     <div className={styles.chatPanel}>
-      <h2>Chat</h2>
+      <h2>
+        {otherUser
+          ? otherUser.username
+          : "Welcome! Select a user to chat with."}
+      </h2>
       <div className={styles.chatContainer}>
         {otherUser ? (
           <>
-            <h3>Chatting with: {otherUser.username}</h3>
-
             {chats && chats.length > 0 ? (
               <ul className={styles.chats}>
                 {chats.map((chat) => (
@@ -42,15 +54,16 @@ export const ChatPanel = ({ otherUser = null }) => {
                         ? styles.otherUserChat
                         : styles.loggedInUserChat
                     }
+                    onMouseOver={() => handleMessageHover(chat.sentTime)}
                   >
-                    {chat.sender.username} says: {chat.text}
+                    {chat.text}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>No chats currently.</p>
+              <p>Start chatting!</p>
             )}
-
+            <p>{msgTime ? "Message time: " + msgTime : null}</p>
             <div className={styles.chatInput}>
               <input
                 type="text"
@@ -66,9 +79,7 @@ export const ChatPanel = ({ otherUser = null }) => {
               />
             </div>
           </>
-        ) : (
-          <p>Select a user to chat with!</p>
-        )}
+        ) : null}
       </div>
     </div>
   );
