@@ -12,7 +12,7 @@ const UserForm = ({ action }) => {
   const [title, setTitle] = useState("");
 
   const navigate = useNavigate();
-  const { updateLoggedInUser, setError } = useOutletContext();
+  const { setUser, setError } = useOutletContext();
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -24,7 +24,7 @@ const UserForm = ({ action }) => {
       } else if (action === "login") {
         await submitLogin(username, password);
         const user = getUserFromToken();
-        updateLoggedInUser(user);
+        setUser(user);
         navigate("/");
       }
     } catch (err) {

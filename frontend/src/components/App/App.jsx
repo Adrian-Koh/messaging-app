@@ -7,6 +7,7 @@ import { getUserFromToken, removeToken } from "../../utils/token";
 export default function App() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  const [pic, setPic] = useState("");
 
   useEffect(() => {
     const loggedInUser = getUserFromToken();
@@ -16,13 +17,15 @@ export default function App() {
     }
   }, []);
 
-  const updateLoggedInUser = (u) => {
-    setUser(u);
-  };
+  useEffect(() => {
+    if (user && user.photoUrl) {
+      setPic(user.photoUrl);
+    }
+  }, [user]);
 
   function handleLogOutClick() {
     removeToken();
-    updateLoggedInUser(null);
+    setUser(null);
   }
 
   return (
@@ -38,9 +41,7 @@ export default function App() {
             <Link to="profile" className={styles.user}>
               <img
                 className={styles.loggedInUserIcon}
-                src={
-                  user && user.photoUrl ? user.photoUrl : "/account-circle.svg"
-                }
+                src={pic ? pic : "/account-circle.svg"}
                 alt="Logged in account"
               />
               {user.username}
@@ -67,7 +68,7 @@ export default function App() {
         </div>
       ) : null}
       <div className={styles.container}>
-        <Outlet context={{ updateLoggedInUser, user, setError }}></Outlet>
+        <Outlet context={{ setUser, user, setError }}></Outlet>
       </div>
     </div>
   );

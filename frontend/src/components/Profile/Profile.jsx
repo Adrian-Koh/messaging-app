@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { editProfilePic } from "./user-profile";
 
 const Profile = () => {
-  const { user, updateLoggedInUser } = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const [file, setFile] = useState(null);
   const fileRef = useRef(null);
 
@@ -15,8 +15,8 @@ const Profile = () => {
   }
 
   async function onFileSelected(e) {
-    // TODO: add confirmation?
     const updatedUser = await editProfilePic(e.target.files[0]);
+    setUser(updatedUser);
   }
 
   function handleEditBio() {}
