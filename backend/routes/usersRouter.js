@@ -11,11 +11,11 @@ usersRouter.get("/", verifyToken, usersController.usersGet);
 usersRouter.get("/online", verifyToken, redis.getOnlineUsers);
 usersRouter.post("/login", usersController.loginPost);
 usersRouter.post("/signup", upload.single("file"), usersController.signupPost);
-
 usersRouter.put(
-  "/profile",
+  "/photo",
+  verifyToken,
   upload.single("file"),
-  profileController.editProfile
+  profileController.profilePicPut
 );
 
 module.exports = usersRouter;
