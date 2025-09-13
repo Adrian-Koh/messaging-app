@@ -20,5 +20,5 @@ export const editProfilePic = async (file) => {
     throw new Error(parsed.message);
   }
 
-  return parsed.user;
+  localStorage.setItem("token", parsed.token);
 };

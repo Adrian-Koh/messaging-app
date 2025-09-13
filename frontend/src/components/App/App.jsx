@@ -14,6 +14,9 @@ export default function App() {
 
     if (loggedInUser) {
       setUser(loggedInUser);
+      if (loggedInUser.photoUrl) {
+        setPic(loggedInUser.photoUrl);
+      }
     }
   }, []);
 
