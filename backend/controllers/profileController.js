@@ -35,4 +35,35 @@ async function profilePicPut(req, res, next) {
   });
 }
 
-module.exports = { profilePicPut };
+async function bioPut(req, res, next) {
+  jwt.verify(req.token, process.env.SECRET_KEY, async (err, authData) => {
+    if (err) {
+      return next(err);
+    } else {
+      try {
+        const { bio } = req.body;
+
+        const user = await usersQueries.updateUserInfo(authData.user.id, {
+          bio,
+          photoUrl: authData.user.photoUrl,
+        });
+
+        jwt.sign(
+          { user },
+          process.env.SECRET_KEY,
+          { expiresIn: "7d" },
+          (err, token) => {
+            if (err) {
+              return next(err);
+            }
+            res.json({ token });
+          }
+        );
+      } catch (err) {
+        return next(err);
+      }
+    }
+  });
+}
+
+module.exports = { profilePicPut, bioPut };

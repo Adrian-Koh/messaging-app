@@ -17,5 +17,6 @@ usersRouter.put(
   upload.single("file"),
   profileController.profilePicPut
 );
+usersRouter.put("/bio", verifyToken, profileController.bioPut);
 
 module.exports = usersRouter;
