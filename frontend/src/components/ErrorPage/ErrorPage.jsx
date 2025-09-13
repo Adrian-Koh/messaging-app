@@ -3,10 +3,10 @@ import styles from "./ErrorPage.module.css";
 
 const ErrorPage = () => {
   return (
-    <div>
-      <h1>Oh no, this route doesn't exist!</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Oh no, this route doesn't exist!</h1>
       <p>
-        <Link to="/">
+        <Link to="/" className={styles.link}>
           You can go back to the home page by clicking here, though!
         </Link>
       </p>

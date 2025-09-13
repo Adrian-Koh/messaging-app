@@ -5,29 +5,37 @@ import { useOutletContext } from "react-router-dom";
 
 export const UsersPanel = ({ setOtherUser }) => {
   const [users, setUsers] = useState([]);
-  const { user } = useOutletContext();
+  const [loading, setLoading] = useState(false);
+  const { user, setError } = useOutletContext();
 
   useEffect(() => {
-    const getUsersCb = async () => {
-      const otherUsers = (await getAllUsers()).filter(
-        (otherUser) => otherUser.username !== user.username
-      );
-      const onlineUsers = await getAllOnlineUsers();
-
-      const usersWithOnlineInfo = otherUsers.map((otherUser) => {
-        return {
-          ...otherUser,
-          online: onlineUsers.includes(otherUser.username),
-        };
-      });
-      setUsers(usersWithOnlineInfo);
-    };
-    getUsersCb();
+    setLoading(true);
+    getAllUsers()
+      .then((allUsers) => {
+        const otherUsers = allUsers.filter(
+          (otherUser) => otherUser.username !== user.username
+        );
+        getAllOnlineUsers()
+          .then((onlineUsers) => {
+            const usersWithOnlineInfo = otherUsers.map((otherUser) => {
+              return {
+                ...otherUser,
+                online: onlineUsers.includes(otherUser.username),
+              };
+            });
+            setUsers(usersWithOnlineInfo);
+            setLoading(false);
+          })
+          .catch((err) => setError(err.message));
+      })
+      .catch((err) => setError(err.message));
   }, [user]);
 
   return (
     <div className={styles.usersPanel}>
-      {users && users.length > 0 ? (
+      {loading ? (
+        <h2 className={styles.loading}>Loading...</h2>
+      ) : users && users.length > 0 ? (
         <>
           <h2 className={styles.panelTitle}>Users</h2>
           <ul className={styles.usersList}>

@@ -7,25 +7,35 @@ export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const [msgTime, setMsgTime] = useState("");
-  const { user } = useOutletContext();
+  const [loading, setLoading] = useState(false);
+  const { user, setError } = useOutletContext();
 
-  const getUserChatsCb = async () => {
+  const fetchChats = () => {
     if (otherUser) {
-      const chats = await getUserChats(otherUser.id);
-      setChats(chats);
+      setLoading(true);
+      getUserChats(otherUser.id)
+        .then((chats) => {
+          setChats(chats);
+          setLoading(false);
+        })
+        .catch((err) => setError(err.message));
     } else {
       setChats([]);
     }
   };
 
   useEffect(() => {
-    getUserChatsCb();
+    fetchChats();
   }, [otherUser]);
 
-  async function handleSendClick() {
-    await submitChat(otherUser.id, message);
-    setMessage("");
-    await getUserChatsCb();
+  function handleSendClick() {
+    submitChat(otherUser.id, message)
+      .then(() => {
+        setLoading(true);
+        setMessage("");
+        fetchChats();
+      })
+      .catch((err) => setError(err.message));
   }
 
   function handleMessageHover(time) {
@@ -45,9 +55,11 @@ export const ChatPanel = ({ otherUser = null }) => {
           : `Welcome, ${user.username}! Select a user to chat with.`}
       </h2>
       <div className={styles.chatContainer}>
-        {otherUser ? (
+        {loading ? (
+          <h3 className={styles.loading}>Loading...</h3>
+        ) : otherUser ? (
           <>
-            {chats && chats.length > 0 ? (
+            {chats ? (
               <ul className={styles.chats}>
                 {chats.map((chat) => (
                   <li

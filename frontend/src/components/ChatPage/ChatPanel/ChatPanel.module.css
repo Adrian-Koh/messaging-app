@@ -55,6 +55,7 @@ html {
   gap: 15px;
   justify-content: center;
   height: 35px;
+  justify-self: flex-end;
 }
 
 .chatInput input {
@@ -80,4 +81,8 @@ html {
 
 .otherUser {
   margin: 4px 0;
+}
+
+.loading {
+  text-align: center;
 }
