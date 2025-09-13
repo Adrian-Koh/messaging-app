@@ -1,12 +1,14 @@
 import { useOutletContext } from "react-router-dom";
 import styles from "./Profile.module.css";
 import { useState, useRef } from "react";
-import { editProfilePic } from "./user-profile";
+import { editBio, editProfilePic } from "./user-profile";
 import { getUserFromToken } from "../../utils/token";
 
 const Profile = () => {
   const { user, setUser, setError } = useOutletContext();
   const [file, setFile] = useState(null);
+  const [bio, setBio] = useState("");
+  const [editBioActive, setEditBioActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const fileRef = useRef(null);
 
@@ -33,11 +35,31 @@ const Profile = () => {
           setFile(null);
           setLoading(false);
         })
-        .catch((err) => setError(err.message));
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
   }
 
-  function handleEditBio() {}
+  function handleBioSubmit() {
+    if (bio) {
+      setLoading(true);
+      editBio(bio)
+        .then(() => {
+          const updatedUser = getUserFromToken();
+          setUser(updatedUser);
+          setBio("");
+          setLoading(false);
+          setEditBioActive(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }
+    setEditBioActive(false);
+  }
 
   return (
     <div className={styles.container}>
@@ -68,10 +90,7 @@ const Profile = () => {
               {file ? (
                 <div className={styles.fileSelected}>
                   <div className={styles.fileName}>Selected: {file.name}</div>
-                  <button
-                    className={styles.submitFile}
-                    onClick={handleFileSubmit}
-                  >
+                  <button className={styles.submit} onClick={handleFileSubmit}>
                     Submit
                   </button>
                 </div>
@@ -89,8 +108,23 @@ const Profile = () => {
             src="/pencil.svg"
             alt="edit"
             className={styles.editIcon}
-            onClick={handleEditBio}
+            onClick={() => setEditBioActive(true)}
           />
+          {editBioActive ? (
+            <div className={styles.editBio}>
+              <label htmlFor="bio" className={styles.label}>
+                Edit bio:{" "}
+                <textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                ></textarea>
+              </label>
+              <button className={styles.submit} onClick={handleBioSubmit}>
+                Submit
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : (
         <h1 className={styles.loggedOutMessage}>You are not logged in.</h1>
