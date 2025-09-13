@@ -7,6 +7,7 @@ export const ChatPanel = ({ otherUser = null }) => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const [msgTime, setMsgTime] = useState("");
+  const [displayTimeId, setDisplayTimeId] = useState(-1);
   const { user, setError } = useOutletContext();
 
   const fetchChats = () => {
@@ -38,13 +39,14 @@ export const ChatPanel = ({ otherUser = null }) => {
       });
   }
 
-  function handleMessageHover(time) {
+  function handleMessageHover(id, time) {
     const date = new Date(time);
     const dateTimeString = `${date.toDateString()}, ${date.toLocaleTimeString(
       [],
       { hour12: true }
     )}`;
     setMsgTime(dateTimeString);
+    setDisplayTimeId(id);
   }
 
   return (
@@ -66,16 +68,21 @@ export const ChatPanel = ({ otherUser = null }) => {
                         ? styles.otherUserChat
                         : styles.loggedInUserChat
                     }
-                    onMouseOver={() => handleMessageHover(chat.sentTime)}
+                    onMouseOver={() =>
+                      handleMessageHover(chat.id, chat.sentTime)
+                    }
+                    onMouseLeave={() => setDisplayTimeId(-1)}
                   >
                     {chat.text}
+                    {displayTimeId === chat.id ? (
+                      <div className={styles.msgTime}>{msgTime}</div>
+                    ) : null}
                   </li>
                 ))}
               </ul>
             ) : (
               <p>Start chatting!</p>
             )}
-            <p>{msgTime ? "Message time: " + msgTime : null}</p>
             <div className={styles.chatInput}>
               <input
                 type="text"

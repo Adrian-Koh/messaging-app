@@ -28,7 +28,7 @@ html {
   padding: 5px;
   margin: 5px 0;
   gap: 5px;
-  height: calc((0.9 * 95vh) - 65px - 35px - 35px - (5px * 4) - 18px);
+  height: calc((0.9 * 95vh) - 65px - 35px - 35px - (5px * 4));
   overflow-y: auto;
 }
 
@@ -37,6 +37,8 @@ html {
   border-radius: 5px;
   padding: 5px;
   box-shadow: 1px 1px 3px 2px white;
+  position: relative;
+  max-width: calc(100% - 100px - 15px);
 }
 
 .loggedInUserChat {
@@ -83,6 +85,24 @@ html {
   margin: 4px 0;
 }
 
-.loading {
-  text-align: center;
+.msgTime {
+  background-color: white;
+  color: rgb(24, 24, 24);
+  position: absolute;
+  padding: 3px;
+  border-radius: 5px;
+  top: 0%;
+  font-size: 0.8rem;
+  width: 100px;
+  z-index: 1;
+}
+
+.loggedInUserChat .msgTime {
+  right: 100%;
+  margin-right: 5px;
+}
+
+.otherUserChat .msgTime {
+  left: 100%;
+  margin-left: 5px;
 }

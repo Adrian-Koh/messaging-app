@@ -36,8 +36,12 @@ export default function App() {
       <div className={styles.navBar}>
         <nav className={styles.navLinks}>
           <Link to="/">Home</Link>
-          <Link to="login">Log In</Link>
-          <Link to="signup">Sign Up</Link>
+          {user ? null : (
+            <>
+              <Link to="login">Log In</Link>
+              <Link to="signup">Sign Up</Link>
+            </>
+          )}
         </nav>
         <div className={styles.loggedIn}>
           {user ? (
@@ -49,9 +53,7 @@ export default function App() {
               />
               {user.username}
             </Link>
-          ) : (
-            "Not logged in"
-          )}
+          ) : null}
           {user ? (
             <img
               className={styles.logOutIcon}
