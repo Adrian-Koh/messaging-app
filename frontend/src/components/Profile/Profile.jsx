@@ -118,6 +118,7 @@ const Profile = () => {
                   id="bio"
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
+                  rows="5"
                 ></textarea>
               </label>
               <button className={styles.submit} onClick={handleBioSubmit}>

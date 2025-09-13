@@ -25,7 +25,10 @@ const UserForm = ({ action }) => {
           setLoading(false);
           navigate("/login");
         })
-        .catch((err) => setError(err.message));
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     } else if (action === "login") {
       setLoading(true);
       submitLogin(username, password)
@@ -35,7 +38,10 @@ const UserForm = ({ action }) => {
           setUser(user);
           navigate("/");
         })
-        .catch((err) => setError(err.message));
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
   }
 

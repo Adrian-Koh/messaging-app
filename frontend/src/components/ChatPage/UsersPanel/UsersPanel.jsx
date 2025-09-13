@@ -28,7 +28,10 @@ export const UsersPanel = ({ setOtherUser }) => {
           })
           .catch((err) => setError(err.message));
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, [user]);
 
   return (
