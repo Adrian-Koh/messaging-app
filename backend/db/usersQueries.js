@@ -63,6 +63,7 @@ async function updateUserInfo(userid, updateUserInfo) {
       select: {
         id: true,
         username: true,
+        joinDate: true,
         photoUrl: true,
         bio: true,
       },

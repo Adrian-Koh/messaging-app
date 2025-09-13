@@ -17,7 +17,17 @@ async function profilePicPut(req, res, next) {
           photoUrl,
         });
 
-        res.json({ user });
+        jwt.sign(
+          { user },
+          process.env.SECRET_KEY,
+          { expiresIn: "7d" },
+          (err, token) => {
+            if (err) {
+              return next(err);
+            }
+            res.json({ token });
+          }
+        );
       } catch (err) {
         return next(err);
       }
