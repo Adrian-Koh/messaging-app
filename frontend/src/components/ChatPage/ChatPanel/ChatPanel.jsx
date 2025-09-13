@@ -84,6 +84,11 @@ export const ChatPanel = ({ otherUser = null }) => {
                 className={styles.inputField}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendClick();
+                  }
+                }}
               />
               <input
                 type="button"
