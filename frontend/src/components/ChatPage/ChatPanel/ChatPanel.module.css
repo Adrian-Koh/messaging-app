@@ -12,6 +12,10 @@ html {
   align-items: center;
 }
 
+.otherUser {
+  margin: 4px 0;
+}
+
 .chatContainer {
   width: 100%;
   display: flex;
@@ -38,7 +42,6 @@ html {
   padding: 5px;
   box-shadow: 1px 1px 3px 2px white;
   position: relative;
-  max-width: calc(100% - 100px - 15px);
 }
 
 .loggedInUserChat {
@@ -81,28 +84,22 @@ html {
   box-shadow: 1px 1px 3px 1px white;
 }
 
-.otherUser {
-  margin: 4px 0;
-}
-
 .msgTime {
   background-color: white;
   color: rgb(24, 24, 24);
   position: absolute;
   padding: 3px;
   border-radius: 5px;
-  top: 0%;
+  bottom: 100%;
   font-size: 0.8rem;
   width: 100px;
-  z-index: 1;
+  box-sizing: border-box;
 }
 
 .loggedInUserChat .msgTime {
-  right: 100%;
-  margin-right: 5px;
+  right: max(0px, calc(100% - 100px));
 }
 
 .otherUserChat .msgTime {
-  left: 100%;
-  margin-left: 5px;
+  right: min(0px, calc(100% - 100px));
 }
