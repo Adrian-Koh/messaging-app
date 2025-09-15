@@ -59,7 +59,7 @@ export const ChatPanel = ({ otherUser = null }) => {
       <div className={styles.chatContainer}>
         {otherUser ? (
           <>
-            {chats ? (
+            {chats && chats.length > 0 ? (
               <ul className={styles.chats}>
                 {chats.map((chat) => (
                   <li
@@ -81,7 +81,7 @@ export const ChatPanel = ({ otherUser = null }) => {
                 ))}
               </ul>
             ) : (
-              <p>Start chatting!</p>
+              <p className={styles.noChats}>Start chatting!</p>
             )}
             <div className={styles.chatInput}>
               <input

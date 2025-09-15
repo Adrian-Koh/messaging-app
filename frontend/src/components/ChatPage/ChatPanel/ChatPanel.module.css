@@ -29,11 +29,15 @@ html {
   grid-template-columns: minmax(500px, 1000px);
   grid-auto-rows: min-content;
   list-style-type: none;
-  padding: 5px;
-  margin: 5px 0;
   gap: 5px;
+  overflow-y: scroll;
+}
+
+.noChats,
+.chats {
   height: calc((0.9 * 95vh) - 65px - 35px - 35px - (5px * 4));
-  overflow-y: auto;
+  padding: 5px 5px 35px 5px;
+  margin: 5px 0;
 }
 
 .chats li {
@@ -90,10 +94,11 @@ html {
   position: absolute;
   padding: 3px;
   border-radius: 5px;
-  bottom: 100%;
+  top: 100%;
   font-size: 0.8rem;
   width: 100px;
   box-sizing: border-box;
+  z-index: 2;
 }
 
 .loggedInUserChat .msgTime {
