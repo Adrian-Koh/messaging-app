@@ -1,13 +1,29 @@
-const Redis = require("ioredis");
-const redis = new Redis();
+const { createClient } = require("redis");
+require("dotenv").config();
+
+let client = null;
+async function connectRedis() {
+  client = await createClient({
+    username: "default",
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+      host: process.env.REDIS_URL,
+      port: 17000,
+    },
+  })
+    .on("error", (err) => console.log("Redis Client Error", err))
+    .connect();
+}
 
 const addOnlineUser = async (username) => {
   // store userId with TTL of 60s
-  await redis.set(`online:${username}`, Date.now(), "EX", 60);
+  if (!client) await connectRedis();
+  await client.set(`online:${username}`, Date.now(), { EX: 60 });
 };
 
 const getOnlineUsers = async (req, res, next) => {
-  const keys = await redis.keys("online:*");
+  if (!client) await connectRedis();
+  const keys = await client.keys("online:*");
   const usernames = keys.map((k) => k.replace("online:", ""));
   res.json({ onlineUsers: usernames });
 };
