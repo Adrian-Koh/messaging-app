@@ -23,6 +23,8 @@ export default function App() {
   useEffect(() => {
     if (user && user.photoUrl) {
       setPic(user.photoUrl);
+    } else {
+      setPic("");
     }
   }, [user]);
 
@@ -47,7 +49,11 @@ export default function App() {
           {user ? (
             <Link to="profile" className={styles.user}>
               <img
-                className={styles.loggedInUserIcon}
+                className={
+                  pic
+                    ? styles.loggedInUserIcon
+                    : `${styles.loggedInUserIcon} ${styles.noPic}`
+                }
                 src={pic ? pic : "/account-circle.svg"}
                 alt="Logged in account"
               />

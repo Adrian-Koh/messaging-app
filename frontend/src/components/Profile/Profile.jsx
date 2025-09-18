@@ -80,23 +80,29 @@ const Profile = () => {
                 className={styles.editIcon}
                 onClick={handleEditPhoto}
               />
-              <input
-                type="file"
-                onChange={onFileSelected}
-                style={{ display: "none" }}
-                ref={fileRef}
-                accept="image/*"
-              />
-              {file ? (
-                <div className={styles.fileSelected}>
-                  <div className={styles.fileName}>Selected: {file.name}</div>
-                  <button className={styles.submit} onClick={handleFileSubmit}>
-                    Submit
-                  </button>
-                </div>
-              ) : null}
             </>
-          ) : null}
+          ) : (
+            <button className={styles.addPhoto} onClick={handleEditPhoto}>
+              Add photo
+            </button>
+          )}
+          <>
+            <input
+              type="file"
+              onChange={onFileSelected}
+              style={{ display: "none" }}
+              ref={fileRef}
+              accept="image/*"
+            />
+            {file ? (
+              <div className={styles.fileSelected}>
+                <div className={styles.fileName}>Selected: {file.name}</div>
+                <button className={styles.submit} onClick={handleFileSubmit}>
+                  Submit
+                </button>
+              </div>
+            ) : null}
+          </>
           <div className={styles.username}>{user.username}</div>
           <div className={styles.joinDate}>
             Joined on: {new Date(user.joinDate).toDateString()}

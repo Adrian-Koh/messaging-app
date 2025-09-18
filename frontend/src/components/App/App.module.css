@@ -75,6 +75,10 @@ html {
   object-fit: cover;
 }
 
+.noPic {
+  filter: var(--svg-filter);
+}
+
 .navLinks a:hover,
 .logOutIcon:hover,
 .user:hover {
