@@ -1,4 +1,4 @@
-const BACKEND_DOMAIN = "http://localhost:8000";
+const BACKEND_DOMAIN = "https://messaging-app-04uu.onrender.com";
 
 export const submitSignup = async (username, password, file, bio) => {
   const formData = new FormData();

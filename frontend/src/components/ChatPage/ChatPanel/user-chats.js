@@ -1,4 +1,4 @@
-const BACKEND_DOMAIN = "http://localhost:8000/chat";
+const BACKEND_DOMAIN = "https://messaging-app-04uu.onrender.com/chat";
 import { getTokenHeader } from "../../../utils/token";
 
 export const getUserChats = async (otherUserId) => {

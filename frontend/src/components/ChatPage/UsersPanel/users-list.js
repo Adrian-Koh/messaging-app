@@ -1,4 +1,4 @@
-const BACKEND_DOMAIN = "http://localhost:8000";
+const BACKEND_DOMAIN = "https://messaging-app-04uu.onrender.com";
 import { getTokenHeader } from "../../../utils/token";
 
 export const getAllUsers = async () => {
