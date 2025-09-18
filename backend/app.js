@@ -8,7 +8,7 @@ const chatRouter = require("./routes/chatRouter");
 const indexRouter = require("./routes/indexRouter");
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://adriankoh-messaging-app.netlify.app",
   optionsSuccessStatus: 200,
 };
 
