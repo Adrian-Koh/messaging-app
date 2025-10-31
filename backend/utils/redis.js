@@ -8,7 +8,7 @@ async function connectRedis() {
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_URL,
-      port: 17000,
+      port: process.env.REDIS_PORT,
     },
   })
     .on("error", (err) => console.log("Redis Client Error", err))
